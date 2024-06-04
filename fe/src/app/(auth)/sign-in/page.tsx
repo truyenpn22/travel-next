@@ -1,20 +1,29 @@
 'use client';
 import { useState, FormEvent, useEffect } from 'react';
 import { useRouter } from 'next/navigation'
+import LocalStorage from '@/config/localStorage';
+import { redirect } from "next/navigation"
+import { useAuth } from '@/context/authContext';
+import useUserStore from '@/hook/useAuthStore';
 
 const SignIn: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+
+    const { setUser } = useAuth();
+
     const router = useRouter()
 
     useEffect(() => {
-        const token = localStorage.getItem('user');
+        const token = LocalStorage.getFromLocalStorage('user');
         if (token) {
             router.push('/');
         }
     }, []);
+
+
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -30,19 +39,23 @@ const SignIn: React.FC = () => {
                 body: JSON.stringify({ email, password }),
             });
 
-            const data = await response.json();
+            const result = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.message || 'Login failed');
+                throw new Error(result.message || 'Login failed');
             }
-            localStorage.setItem('user', data.token);
+
+            LocalStorage.setToLocalStorage('user', JSON.stringify(result.data))
+            setUser(result.data.username);
             router.push('/');
+
         } catch (err: any) {
             setError(err.message);
         } finally {
             setLoading(false);
         }
     };
+
 
 
     return (

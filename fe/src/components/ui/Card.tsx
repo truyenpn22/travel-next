@@ -33,23 +33,17 @@
 import { useEffect, useState } from "react";
 import useSWR from 'swr'
 
-interface BlogData {
-    id: string;
-    title: string;
-    content: string;
-    date: string;
-    author: string;
-}
 
 const Card = (props: any) => {
     // const [data, setData] = useState<BlogData[] | null>(null);
     const fetcher = (url: string) => fetch(url).then(res => res.json())
 
-    const { data, error, isLoading } = useSWR('https://64f49d06932537f4051a87b4.mockapi.io/api/v1/blog', fetcher, {
+    const { data, error, isLoading } = useSWR('http://localhost:5000/api/v1/tours', fetcher, {
         revalidateIfStale: false,
         revalidateOnFocus: false,
         revalidateOnReconnect: false
     })
+    console.log(data);
 
 
     if (error) return <div>failed to load</div>
@@ -77,10 +71,10 @@ const Card = (props: any) => {
             <div className="mt-4">
                 <h2 className="text-lg font-semibold">Blog Posts</h2>
                 <ul className="mt-2 space-y-4">
-                    {data?.map((post: any) => (
-                        <li key={post.id} className="border-b pb-2">
+                    {data?.data.map((post: any) => (
+                        <li key={post._id} className="border-b pb-2">
                             <h3 className="text-xl font-bold">{post.title}</h3>
-                            <p>{post.content}</p>
+                            <p className="text-xl font-bold">{post.desc}</p>
                         </li>
                     ))}
                 </ul>

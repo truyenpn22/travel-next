@@ -1,18 +1,3 @@
-import type { Metadata } from 'next'
-import { Inter } from "next/font/google";
-
-
-import Header from '@/components/Header'
-import '../../app/globals.css'
-import Footer from '@/components/Footer'
-
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Borcelle Store",
-  description: "Borcelle Ecommerce Store",
-};
-
 export default function RootLayout({
   children,
 }: {
@@ -20,17 +5,10 @@ export default function RootLayout({
 }) {
 
   return (
-    <html lang="en" suppressHydrationWarning={true}>
-      <body className={inter.className}>
-        <main>
-          <Header />
-          {children}
-          <Footer />
-        </main>
-      </body>
 
-    </html>
-
+    <>
+      {children}
+    </>
 
   )
 }

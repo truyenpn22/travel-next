@@ -1,5 +1,3 @@
-
-
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { Button } from "@/components/ui/Button";
 
@@ -8,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 export default function Home() {
   return (
     <>
+
       <MaxWidthWrapper className="bg-[#182b50] p-8 font-[sans-serif] max-w-full">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 justify-center items-center gap-4">
           <div className="text-center md:text-left">
@@ -135,8 +134,6 @@ export default function Home() {
           </div>
         </div>
       </MaxWidthWrapper>
-
-
     </>
   )
 }
