@@ -1,0 +1,122 @@
+[
+  {
+    "title": "Westminister Bridge",
+    "city": "London",
+    "address": "Somewhere in London",
+    "distance": 300,
+    "price": 99,
+    "maxGroupSize": 10,
+    "desc": "this is the description",
+    "reviews": [],
+    "photo": "https://www.vietnamairlines.com/~/media/Images/Discovery/England/London/canh%20dep/986x906/London_canhdep_986x906.jpg",
+    "featured": true
+  },
+  {
+    "title": "Bali, Indonesia",
+    "city": "Bali",
+    "address": "Somewhere in Indonesia",
+    "distance": 400,
+    "price": 99,
+    "maxGroupSize": 8,
+    "desc": "this is the description",
+    "reviews": [],
+    "photo": "https://cdn3.ivivu.com/2022/12/T%E1%BB%95ng-quan-du-l%E1%BB%8Bch-Indonesia-ivivu.jpg",
+    "featured": true
+  },
+  {
+    "title": "Snowy Mountains, Thailand",
+    "city": "Bangkok",
+    "address": "Somewhere in Thailand",
+    "distance": 500,
+    "price": 99,
+    "maxGroupSize": 8,
+    "desc": "this is the description",
+    "reviews": [],
+    "photo": "https://explorewithwonder.com/wp-content/uploads/2023/08/does-it-snow-thailand-hero-shot.jpg",
+    "featured": true
+  },
+  {
+    "title": "Beautiful Sunrise, Thailand",
+    "city": "Phuket",
+    "address": "Somewhere in Thailand",
+    "distance": 500,
+    "price": 99,
+    "maxGroupSize": 8,
+    "desc": "this is the description",
+    "reviews": [],
+    "photo": "https://i.pinimg.com/originals/29/88/21/298821ffb6fb9beeb5d0c5198a9ffa06.jpg",
+    "featured": true
+  },
+  {
+    "title": "Nusa Pendia Bali, Indonesia",
+    "city": "Bali",
+    "address": "Somewhere in Indonesia",
+    "distance": 500,
+    "price": 99,
+    "maxGroupSize": 8,
+    "desc": "this is the description",
+    "reviews": [],
+    "photo": "https://a.cdn-hotels.com/gdcs/production51/d1983/1a7e2818-045b-4fcc-973c-6d5f63a523ec.jpg",
+    "featured": true
+  },
+  {
+    "title": "Cherry Blossoms Spring",
+    "city": "Tokyo",
+    "address": "Somewhere in Japan",
+    "distance": 500,
+    "price": 99,
+    "maxGroupSize": 8,
+    "desc": "this is the description",
+    "reviews": [],
+    "photo": "https://d.newsweek.com/en/full/1362778/gettyimages-638216344-hero-tokyo.jpg",
+    "featured": true
+  },
+  {
+    "title": "Holmen Lofoten, France",
+    "city": "Paris",
+    "address": "Somewhere in France",
+    "distance": 500,
+    "price": 99,
+    "maxGroupSize": 8,
+    "desc": "this is the description",
+    "reviews": [],
+    "photo": "https://media-cdn.tripadvisor.com/media/photo-s/2a/df/76/53/holmen-lofoten.jpg",
+    "featured": true
+  },
+  {
+    "title": "Beautiful Snowy Mountains",
+    "city": "Bangkok",
+    "address": "Somewhere in Thailand",
+    "distance": 500,
+    "price": 99,
+    "maxGroupSize": 8,
+    "desc": "this is the description",
+    "reviews": [],
+    "photo": "https://hips.hearstapps.com/redonline/main/thumbs/20608/mt_musala_bulgaria.jpg",
+    "featured": true
+  },
+  {
+    "title": "Jaflong, Sylhet",
+    "city": "Sylhet",
+    "address": "Somewhere in Sylhet",
+    "distance": 100,
+    "price": 99,
+    "maxGroupSize": 5,
+    "desc": "this is the description",
+    "reviews": [],
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/4/4d/Jaflong_Sylhet.jpg",
+    "featured": false
+  },
+  {
+    "title": "Cox's Bazar Sea Beach",
+    "city": "Chittagong",
+    "address": "Somewhere in Chittagong",
+    "distance": 500,
+    "price": 99,
+    "maxGroupSize": 8,
+    "desc": "this is the description",
+    "reviews": [],
+    "photo": "https://image.vietnamnews.vn/uploadvnnews/Article/2023/1/5/258976_cox.jpg",
+    "featured": false
+  }
+]

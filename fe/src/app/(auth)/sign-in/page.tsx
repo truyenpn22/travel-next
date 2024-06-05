@@ -4,7 +4,9 @@ import { useRouter } from 'next/navigation'
 import LocalStorage from '@/config/localStorage';
 import { redirect } from "next/navigation"
 import { useAuth } from '@/context/authContext';
-import useUserStore from '@/hook/useAuthStore';
+import { useDispatch } from 'react-redux';
+import { setUser } from '@/hook/reducer/authSlice';
+import { toast } from 'react-toastify';
 
 const SignIn: React.FC = () => {
     const [email, setEmail] = useState<string>('');
@@ -13,6 +15,7 @@ const SignIn: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
 
     const { setUser } = useAuth();
+    // const dispatch = useDispatch();
 
     const router = useRouter()
 
@@ -47,10 +50,17 @@ const SignIn: React.FC = () => {
 
             LocalStorage.setToLocalStorage('user', JSON.stringify(result.data))
             setUser(result.data.username);
+            // dispatch(setUser(result.data.username));
             router.push('/');
+            toast.success("Logged in successfully", {
+                autoClose: 1500,
+            });
 
         } catch (err: any) {
             setError(err.message);
+            toast.error(err.message, {
+                autoClose: 1500,
+            });
         } finally {
             setLoading(false);
         }

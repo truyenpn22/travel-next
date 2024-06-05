@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from 'react';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 
 const SignUp: React.FC = () => {
 
@@ -30,10 +31,15 @@ const SignUp: React.FC = () => {
             if (!response.ok) {
                 throw new Error(data.message || 'Registration failed');
             }
-            alert("Dang ky thanh cong")
+            toast.success("Register successfully", {
+                autoClose: 1500,
+            });
 
         } catch (err: any) {
             setError(err.message);
+            toast.error(err.message, {
+                autoClose: 1500
+            })
         } finally {
             setLoading(false);
         }

@@ -1,85 +1,49 @@
-// import { Suspense } from 'react';
-// import styles from '../../styles/dashboard.module.css'
-// import Link from 'next/link';
-
-// async function getData() {
-//     const res = await fetch('https://64f49d06932537f4051a87b4.mockapi.io/api/v1/blog');
-//     if (!res.ok) {
-//         throw new Error('Fail to fetch data');
-//     }
-//     return res.json();
-// }
-
-// export default async function Card() {
-
-//     const data = await getData();
-
-//     return (
-//         <div>
-//             <h1>All List Nine Dev</h1>
-//             <Suspense fallback={<div>Loading...</div>}>
-//                 {(data || []).map((item: any) => (
-//                     <div >
-//                         <h3>{item?.title}</h3>
-//                     </div>
-//                 ))}
-//             </Suspense>
-//         </div>
-//     )
-// }
-
-
 'use client'
 import { useEffect, useState } from "react";
-import useSWR from 'swr'
-
+import MaxWidthWrapper from "../MaxWidthWrapper";
+import Link from "next/link";
 
 const Card = (props: any) => {
-    // const [data, setData] = useState<BlogData[] | null>(null);
-    const fetcher = (url: string) => fetch(url).then(res => res.json())
+    const [data, setData] = useState([]);
 
-    const { data, error, isLoading } = useSWR('http://localhost:5000/api/v1/tours', fetcher, {
-        revalidateIfStale: false,
-        revalidateOnFocus: false,
-        revalidateOnReconnect: false
-    })
-    console.log(data);
+    const fetchData1 = async () => {
+        try {
+            const res = await fetch('http://localhost:5000/api/v1/tours');
+            const results = await res.json();
+            setData(results.data)
+            console.log(results);
 
+        } catch (error) {
+            console.error("Error fetching data", error);
+        }
+    };
 
-    if (error) return <div>failed to load</div>
-    if (isLoading) return <div>loading...</div>
-
-    // const fetchData1 = async () => {
-    //     try {
-    //         const res = await fetch('https://64f49d06932537f4051a87b4.mockapi.io/api/v1/blog');
-    //         const data = await res.json();
-    //         setData(data)
-    //         console.log(data);
-
-    //     } catch (error) {
-    //         console.error("Error fetching data", error);
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     fetchData1();
-    // }, [])
+    useEffect(() => {
+        fetchData1();
+    }, [])
 
     return (
-        <div>
-            <h1>{data?.length}</h1>
-            <div className="mt-4">
-                <h2 className="text-lg font-semibold">Blog Posts</h2>
-                <ul className="mt-2 space-y-4">
-                    {data?.data.map((post: any) => (
-                        <li key={post._id} className="border-b pb-2">
-                            <h3 className="text-xl font-bold">{post.title}</h3>
-                            <p className="text-xl font-bold">{post.desc}</p>
-                        </li>
+        <MaxWidthWrapper className="py-12 max-w-[1800px]">
+            <div className="bg-white font-[sans-serif] p-4">
+                <div>
+                    <h2 className="text-3xl font-extrabold text-[#333] inline-block">LATEST BLOGS</h2>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+                    {data.map((posts: any) => (
+                        <div key={posts._id} className="flex max-lg:flex-col bg-white cursor-pointer rounded overflow-hidden shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] hover:scale-105 transition-all duration-300">
+                            <img src={posts.photo} alt="Blog Post 1" className="lg:w-2/5 min-h-[250px] h-full object-cover" />
+                            <div className="p-6 lg:w-3/5">
+                                <h3 className="text-xl font-bold text-[#333]">{posts.title}</h3>
+                                <span className="text-sm block text-gray-400 mt-2">{posts.city} | {posts.address}</span>
+                                <p className="text-sm mt-4">{posts.desc}</p>
+                                <div className="mt-4 inline-block text-blue-600 text-sm hover:underline"> <Link href={`/blog/${posts._id}`}>Read More</Link>
+                                </div>
+                            </div>
+                        </div>
                     ))}
-                </ul>
+                </div>
             </div>
-        </div>
+        </MaxWidthWrapper>
     );
 }
 

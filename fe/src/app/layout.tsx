@@ -8,6 +8,10 @@ import Footer from '@/components/Footer'
 import DefaultLayout from '@/components/DefaultLayout';
 import 'remixicon/fonts/remixicon.css';
 import { AuthProvider } from '@/context/authContext';
+import { Provider } from 'react-redux';
+import StoreProvider from '@/hook/StoreProvider';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -26,11 +30,34 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body className={inter.className}>
+
+        {/* context */}
         <AuthProvider>
           <DefaultLayout>
             {children}
           </DefaultLayout>
         </AuthProvider>
+        <ToastContainer
+          position="top-right"
+          autoClose={1000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        <ToastContainer />
+
+        {/* redux */}
+        {/* <StoreProvider >
+          <DefaultLayout>
+            {children}
+          </DefaultLayout>
+        </StoreProvider> */}
+
 
       </body>
 

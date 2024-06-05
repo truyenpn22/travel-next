@@ -2,17 +2,20 @@
 import { useEffect, useState } from "react";
 import Link from 'next/link'
 import { Button } from './ui/Button';
-import useAuthStore from "@/hook/useAuthStore";
 import Image from "next/image";
 import logoLogout from "../assets/profile_6.webp"
 import logo from "../assets/readymadeui.svg"
 import LocalStorage from "@/config/localStorage";
 import { useAuth } from "@/context/authContext";
-import useUserStore from "@/hook/useAuthStore";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "@/hook/reducer/authSlice";
+import { toast } from "react-toastify";
 
 const Header = () => {
     const { user, setUser } = useAuth();
 
+    // const user = useSelector((state: any) => state.auth.user);
+    // const dispatch = useDispatch();
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isMenuOpen2, setIsMenuOpen2] = useState(false);
@@ -28,7 +31,10 @@ const Header = () => {
     const handleLogout = () => {
         LocalStorage.removeFromLocalStorage('user');
         setIsMenuOpen2(!isMenuOpen2);
-        setUser(null)
+        setUser(null);
+        toast.success("Logout successfully", {
+            autoClose: 1500,
+        });
     }
 
     return (
