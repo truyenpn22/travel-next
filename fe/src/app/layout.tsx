@@ -7,11 +7,12 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import DefaultLayout from '@/components/DefaultLayout';
 import 'remixicon/fonts/remixicon.css';
-import { AuthProvider } from '@/context/authContext';
+
 import { Provider } from 'react-redux';
 import StoreProvider from '@/hook/StoreProvider';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AuthContextProvider } from '@/context/authContext';
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -32,11 +33,11 @@ export default function RootLayout({
       <body className={inter.className}>
 
         {/* context */}
-        <AuthProvider>
+        <AuthContextProvider>
           <DefaultLayout>
             {children}
           </DefaultLayout>
-        </AuthProvider>
+        </AuthContextProvider>
         <ToastContainer
           position="top-right"
           autoClose={1000}

@@ -12,8 +12,8 @@ import { setUser } from "@/hook/reducer/authSlice";
 import { toast } from "react-toastify";
 
 const Header = () => {
-    const { user, setUser } = useAuth();
-
+    const { state, dispatch } = useAuth();
+    const { user } = state
     // const user = useSelector((state: any) => state.auth.user);
     // const dispatch = useDispatch();
 
@@ -29,9 +29,9 @@ const Header = () => {
     };
 
     const handleLogout = () => {
-        LocalStorage.removeFromLocalStorage('user');
+        localStorage.removeItem('user');  // Clear the user data from localStorage
+        dispatch({ type: "LOGOUT" });
         setIsMenuOpen2(!isMenuOpen2);
-        setUser(null);
         toast.success("Logout successfully", {
             autoClose: 1500,
         });
@@ -83,13 +83,13 @@ const Header = () => {
                             <button type="button" onClick={handleClick2}
                                 className="px-6 py-2 flex items-center rounded-full text-[#333] text-sm font-semibold border-2 border-gray-300 outline-none hover:bg-gray-100">
                                 <Image src={logoLogout} className="w-7 h-7 mr-2 rounded-full shrink-0" alt="Picture of the author"></Image>
-                                Hello, <p className="capitalize">{user}</p>
+                                Hello, <p className="capitalize">{user?.username}</p>
                             </button>
 
                             <ul className='absolute shadow-lg bg-white py-2 z-[1000] min-w-full w-max rounded-lg max-h-96 overflow-auto ' style={{ display: isMenuOpen2 ? 'block' : 'none' }}>
-                                <li className='py-2.5 px-6 flex items-center hover:bg-gray-100 text-[#333] text-sm cursor-pointer'>
+                                <Link href='/profile'> <li className='py-2.5 px-6 flex items-center hover:bg-gray-100 text-[#333] text-sm cursor-pointer'>
                                     View profile
-                                </li>
+                                </li></Link>
                                 <li className='py-2.5 px-6 flex items-center hover:bg-gray-100 text-[#333] text-sm cursor-pointer'>
                                     Dashboard
                                 </li>

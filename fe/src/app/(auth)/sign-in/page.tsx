@@ -8,16 +8,25 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '@/hook/reducer/authSlice';
 import { toast } from 'react-toastify';
 
+const defaultFormState: LoginUser = {
+    email: '',
+    password: '',
+}
+
 const SignIn: React.FC = () => {
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const [formDataLogin, setFormDataLogin] = useState<LoginUser>(defaultFormState);
+
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
-    const { setUser } = useAuth();
-    // const dispatch = useDispatch();
+    const { dispatch } = useAuth();
 
     const router = useRouter()
+
+
+    const handleChangeLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormDataLogin((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    }
 
     useEffect(() => {
         const token = LocalStorage.getFromLocalStorage('user');
@@ -39,7 +48,7 @@ const SignIn: React.FC = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify(formDataLogin),
             });
 
             const result = await response.json();
@@ -49,7 +58,7 @@ const SignIn: React.FC = () => {
             }
 
             LocalStorage.setToLocalStorage('user', JSON.stringify(result.data))
-            setUser(result.data.username);
+            dispatch({ type: "LOGIN_SUCCESS", payload: result.data });
             // dispatch(setUser(result.data.username));
             router.push('/');
             toast.success("Logged in successfully", {
@@ -57,7 +66,7 @@ const SignIn: React.FC = () => {
             });
 
         } catch (err: any) {
-            setError(err.message);
+            dispatch({ type: "LOGIN_FAILURE", payload: err.message });
             toast.error(err.message, {
                 autoClose: 1500,
             });
@@ -94,8 +103,7 @@ const SignIn: React.FC = () => {
                                 required
                                 className="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-[#333]"
                                 placeholder="Email address"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={handleChangeLogin}
                             />
                         </div>
                         <div>
@@ -105,8 +113,7 @@ const SignIn: React.FC = () => {
                                 required
                                 className="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-[#333]"
                                 placeholder="Password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={handleChangeLogin}
                             />
                         </div>
                         <div className="text-sm text-right">

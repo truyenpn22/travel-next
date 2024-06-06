@@ -4,13 +4,21 @@ import { useState, FormEvent } from 'react';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 
+const defaultFormState: SignUpParams = {
+    username: '',
+    email: '',
+    password: '',
+}
+
 const SignUp: React.FC = () => {
 
-    const [username, setUsername] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const [formData, setFormData] = useState<SignUpParams>(defaultFormState);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value, }));
+    };
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -23,7 +31,7 @@ const SignUp: React.FC = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ username, email, password }),
+                body: JSON.stringify(formData),
             });
 
             const data = await response.json();
@@ -72,8 +80,7 @@ const SignUp: React.FC = () => {
                                 required
                                 className="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-[#333]"
                                 placeholder="Enter username"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                                onChange={handleChange}
                             />
                         </div>
                         <div>
@@ -83,8 +90,7 @@ const SignUp: React.FC = () => {
                                 required
                                 className="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-[#333]"
                                 placeholder="Email address"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={handleChange}
                             />
                         </div>
                         <div>
@@ -94,8 +100,7 @@ const SignUp: React.FC = () => {
                                 required
                                 className="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-[#333]"
                                 placeholder="Password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className="!mt-10">

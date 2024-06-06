@@ -1,38 +1,111 @@
 "use client";
-import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
+import React, { createContext, useEffect, useReducer, useContext, ReactNode, useState } from "react";
 
-interface AuthContextType {
-    user: any;
-    setUser: (user: any) => void;
-}
+type User = {
+    _id: string;
+    username: string;
+    email: string;
+} | null;
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-const getUserFromLocalStorage = () => {
-    if (typeof window !== 'undefined') {
-        const user = localStorage.getItem('user');
-        if (user) {
-            const parsedUser = JSON.parse(user);
-            return parsedUser.username;
-        }
-    }
-    return null;
+type State = {
+    user: User;
+    loading: boolean;
+    error: string | null;
 };
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<any>(getUserFromLocalStorage());
-    const [isMounted, setIsMounted] = useState(false);
+type Action =
+    | { type: "LOGIN_START" }
+    | { type: "LOGIN_SUCCESS"; payload: User }
+    | { type: "LOGIN_FAILURE"; payload: string }
+    | { type: "REGISTER_SUCCESS" }
+    | { type: "LOGOUT" };
+
+function loadUser(): User {
+    const data = localStorage.getItem("user");
+    if (data) {
+        return JSON.parse(data);
+    }
+    return null;
+}
+
+const initialState: State = {
+    user: typeof window !== "undefined" ? loadUser() : null,
+    loading: false,
+    error: null,
+};
+
+export const AuthContext = createContext<{
+    state: State;
+    dispatch: React.Dispatch<Action>;
+}>({
+    state: initialState,
+    dispatch: () => null,
+});
+
+const authReducer = (state: State, action: Action): State => {
+    switch (action.type) {
+        case "LOGIN_START":
+            return {
+                ...state,
+                user: null,
+                loading: true,
+                error: null,
+            };
+        case "LOGIN_SUCCESS":
+            return {
+                ...state,
+                user: action.payload,
+                loading: false,
+                error: null,
+            };
+        case "LOGIN_FAILURE":
+            return {
+                ...state,
+                user: null,
+                loading: false,
+                error: action.payload,
+            };
+        case "REGISTER_SUCCESS":
+            return {
+                ...state,
+                user: null,
+                loading: false,
+                error: null,
+            };
+        case "LOGOUT":
+            return {
+                ...state,
+                user: null,
+                loading: false,
+                error: null,
+            };
+        default:
+            return state;
+    }
+};
+
+type AuthContextProviderProps = {
+    children: ReactNode;
+};
+
+export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) => {
+    const [state, dispatch] = useReducer(authReducer, initialState);
+    const [showChild, setShowChild] = useState(false)
 
     useEffect(() => {
-        setUser(getUserFromLocalStorage());
-        setIsMounted(true);
-    }, []);
+        if (state.user) {
+            localStorage.setItem("user", JSON.stringify(state.user));
+        }
+        setShowChild(true)
+    }, [state.user]);
 
-    if (!isMounted) {
-        return null;
+
+    if (!showChild) {
+        return null
     }
+
     return (
-        <AuthContext.Provider value={{ user, setUser }}>
+        <AuthContext.Provider value={{ state, dispatch }}>
             {children}
         </AuthContext.Provider>
     );
